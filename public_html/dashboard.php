@@ -48,7 +48,7 @@
 						<div class="card-body">
 						<h4 class="card-title">Categories</h4>
 						<p class="card-text">Here you can manage your categories and you add new parent and sub categories</p>
-						<a href="#" data-toggle="modal" data-target="#form_category" class="btn btn-primary">Add</a>
+						<a href="#" data-bs-toggle="modal" data-bs-target="#form_category" class="btn btn-primary">Add</a>
 						<a href="manage_categories.php" class="btn btn-primary">Manage</a>
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 						<div class="card-body">
 						<h4 class="card-title">Brands</h4>
 						<p class="card-text">Here you can manage your brand and you add new brand</p>
-						<a href="#" data-toggle="modal" data-target="#form_brand" class="btn btn-primary">Add</a>
+						<a href="#" data-bs-toggle="modal" data-bs-target="#form_brand" class="btn btn-primary">Add</a>
 						<a href="manage_brand.php" class="btn btn-primary">Manage</a>
 					</div>
 				</div>
@@ -68,15 +68,23 @@
 						<div class="card-body">
 						<h4 class="card-title">Products</h4>
 						<p class="card-text">Here you can manage your prpducts and you add new products</p>
-						<a href="#" data-toggle="modal" data-target="#form_products" class="btn btn-primary">Add</a>
+						<a href="#" data-bs-toggle="modal" data-bs-target="#form_products" class="btn btn-primary">Add</a>
 						<a href="manage_product.php" class="btn btn-primary">Manage</a>
 					</div>
 				</div>
 			</div>
+		
 		</div>
 	</div>
 
 
+	<!-- The data targets to modal id linked to work -->
+<!-- Category Form modal -->
+	<?php include('./templates/category.php'); ?>
+<!-- Brand Form modal -->
+	<?php include('./templates/brand.php'); ?>
+<!-- Products Form modal -->
+	<?php include('./templates/products.php'); ?>
 	
 
 <?php include('./footer.php') ?>
