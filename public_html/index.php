@@ -8,7 +8,7 @@ include('header.php');
 	<div class="container">
 		
 		<div class="card mx-auto" style="width: 20rem;">
-		  <img class="card-img-top mx-auto" style="width:60%;" src="./images/login.png" alt="Login Icon">
+		  <img class="card-img-top mx-auto" style="width:40%;" src="./images/login.png" alt="Login Icon">
 		  <div class="card-body">
 			  <!-- this form cant be submit directly as it has onsubmit return false -->
 		    <form id="form_login" onsubmit="return false">

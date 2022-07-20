@@ -2,7 +2,7 @@
 include('header.php');
 ?>
 <div class="overlay"><div class="loader"></div></div>
-	<?php include('./public_html/templates/header.php'); ?>
+	<?php include('./templates/tem-header.php'); ?>
 	<div class="container">
 		<div class="card mx-auto" style="width: 30rem;">
 	        <div class="card-header">Register</div>
