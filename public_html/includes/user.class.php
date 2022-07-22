@@ -60,7 +60,7 @@ public function EmailExists($email)
         $query->execute();
         $result = $query->get_result();
         if ($result->num_rows < 1) {
-            return "Not Registered with this email";
+            return "Not_registered";
         }else{
 
             $row = $result->fetch_assoc();
@@ -82,7 +82,7 @@ public function EmailExists($email)
                 }
 
             }else {
-                return "Password doesn't Matched";
+                return "Password_doesn't_Matched";
             }
            
         }

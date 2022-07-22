@@ -82,5 +82,50 @@ $(document).ready(function(){
 			$("#p2_error").html("<span class='text-danger'>Password is not matched</span>");
 			status = true;
 		}
-	})
+	});
+    $("#form_login").on('submit',function(){
+        var logemail = $('#log_email');
+        var logpassword = $('#log_password');
+        var status = false;
+        if (logemail.val() == "") {
+            logemail.addClass("border-danger")
+            $('#e_error').html("<span class='text-danger'>Email must be inserted</span>")
+            status = false;
+        }else{
+            logemail.removeClass("border-danger");
+            $('#e_error').html("");
+            status = true;
+        }
+        if (logpassword.val() == "") {
+            logemail.addClass("border-danger")
+            $('#p_error').html("<span class='text-danger'>Password must be filled</span>")
+            status = false;
+        }else{
+            logemail.addClass("border-danger")
+            $('#p_error').html("")
+            status = true;
+        }
+         if(status == true){
+            $('.overlay').show();
+            $.ajax({
+                method:"POST",
+                url: DOMAIN+"/dashboard.php",
+                data:$('#form_login').serialize(),
+                success: function(response){
+                    if (response == "Not_registered") {
+                        $('.overlay').hide();
+                        $('#e_error').html("<span class='text-danger'>Email must be inserted</span>")
+                    }else if(response == "Password_doesn't_Matched"){
+                        $('.overlay').hide();
+                        $('#e_error').html("<span class='text-danger'>Password doesn't matched</span>")
+                    }else{
+                        $('.overlay').show();
+                        window.location.href = DOMAIN+"/dashboard.php";
+                    }
+                }
+            })
+        }
+
+       
+    })
 })
