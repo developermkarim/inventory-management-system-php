@@ -10,7 +10,7 @@
       </li>
       
         <?php
-          if (isset($_SESSION["userid"])) {
+          if (isset($_SESSION["userid"])){
             ?>
             <li class="nav-item active">
               <a class="nav-link" href="logout.php"><i class="fa fa-user">&nbsp;</i>Logout</a>

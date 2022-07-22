@@ -12,6 +12,5 @@ public function connect()
  return "DATABASE_CONNECTION_FAIL";
 }
 
-
 }
 ?>

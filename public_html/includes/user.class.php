@@ -1,97 +1,92 @@
-<?php include('./../database/db.php'); ?>
-
 <?php
-class User{
-    private $conn;
-    function __construct()
-    {
-        $db = new Database();
-        $this->conn = $db->connect();
-        if ($this->conn) {
-            echo "Database connected";
-        }else{
-            echo "Database not connectedd";
-        }
-    }
-/* Email Exixsts already function*/
-public function EmailExists($email)
+
+/**
+* User Class for account creation and login pupose
+*/
+class User
 {
-   $sql = "SELECT id from user WHERE email = ?";
-   $email_query = $this->conn->prepare($sql);
-   $email_query->bind_param('s',$email);
-   $email_query->execute();
-   $result = $email_query->get_result();
-   if ($result->num_rows > 0) {
-    return 1;
-   }else{
-    return 0;
-   }
+	
+	private $con;
+	function __construct()
+	{
+		include_once("../database/db.php");
+		$db = new Database();
+		$this->con = $db->connect();
+	}
+
+	//User is already registered or not
+	private function emailExists($email){
+		$pre_stmt = $this->con->prepare("SELECT id FROM user WHERE email = ? ");
+		$pre_stmt->bind_param("s",$email);
+		$pre_stmt->execute() or die($this->con->error);
+		$result = $pre_stmt->get_result();
+		if($result->num_rows > 0){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	public function createUserAccount($username,$email,$password,$usertype){
+		//To protect your application from sql attack you can user 
+		//prepares statment
+		if ($this->emailExists($email)) {
+			return "EMAIL_ALREADY_EXISTS";
+		}else{
+			$pass_hash = password_hash($password,PASSWORD_BCRYPT,["cost"=>8]);
+			$date = date("Y-m-d");
+			$notes = "";
+			$pre_stmt = $this->con->prepare("INSERT INTO `user`(`username`, `email`, `password`, `usertype`, `register_date`, `last_login`, `notes`)
+			 VALUES (?,?,?,?,?,?,?)");
+			$pre_stmt->bind_param("sssssss",$username,$email,$pass_hash,$usertype,$date,$date,$notes);
+			$result = $pre_stmt->execute() or die($this->con->error);
+			if ($result) {
+				return $this->con->insert_id;
+			}else{
+				return "SOME_ERROR";
+			}
+		}
+			
+	}
+
+	public function userLogin($email,$password){
+		$pre_stmt = $this->con->prepare("SELECT id,username,password,last_login FROM user WHERE email = ?");
+		$pre_stmt->bind_param("s",$email);
+		$pre_stmt->execute() or die($this->con->error);
+		$result = $pre_stmt->get_result();
+
+		if ($result->num_rows < 1) {
+			return "NOT_REGISTERD";
+		}else{
+			$row = $result->fetch_assoc();
+			if (password_verify($password,$row["password"])) {
+				$_SESSION["userid"] = $row["id"];
+				$_SESSION["username"] = $row["username"];
+				$_SESSION["last_login"] = $row["last_login"];
+
+				//Here we are updating user last login time when he is performing login
+				$last_login = date("Y-m-d h:m:s");
+				$pre_stmt = $this->con->prepare("UPDATE user SET last_login = ? WHERE email = ?");
+				$pre_stmt->bind_param("ss",$last_login,$email);
+				$result = $pre_stmt->execute() or die($this->con->error);
+				if ($result) {
+					return 1;
+				}else{
+					return 0;
+				}
+
+			}else{
+				return "PASSWORD_NOT_MATCHED";
+			}
+		}
+	}
+
 }
-    /* Registraion function method here with prepare and bind_param for outside insecure injection while attacking */
-    public function CreateUser($user,$email,$password,$usertype)
-    {
-        if ($this->EmailExists($email)) {
-           echo "Email_Already_Exists";
-        }else{
-        $register_date = date('d/m/Y');
-        $last_login = date('Y-m-d');
 
-        // PASSWORD_DEFAULT & PASSWORD_BCRYPT are not major difference. And cost is used for iteration number of algorithm that are executed.
+//$user = new User();
+//echo $user->createUserAccount("Test","rizwan1@gmail.com","1234567890","Admin");
 
-       $encrypted_password = password_hash($password,PASSWORD_BCRYPT,['cost'=>8]);
-        $notes = "";
-        $sql = "INSERT INTO `user`(`username`, `email`, `password`, `usertype`, `register_date`, `last_login`, `notes`) VALUES (?,?,?,?,?,?,?)";
-        $query = $this->conn->prepare($sql);
-        $query->bind_param("sssssss",$user,$email,$encrypted_password,$usertype,$register_date,$last_login,$notes);
-        $result =  $query->execute() or die($this->conn->error);
-        if ($result) {
-          $this->conn->insert_id;
-        }else{
-            return "Email_not_found";
-        }
-    }
-    }
+//echo $user->userLogin("rizwan1@gmail.com","1234567890");
 
-    public function userLogin($email,$password)
-    {
-        $sql = "SELECT id, username,email,last_login,password FROM user where email=?";
-        $query = $this->conn->prepare($sql);
-        $query->bind_param('s',$email);
-        $query->execute();
-        $result = $query->get_result();
-        if ($result->num_rows < 1) {
-            return "Not_registered";
-        }else{
-
-            $row = $result->fetch_assoc();
-            if(password_verify($password, $row['password'])){
-                
-            $_SESSION['userid'] = $row['id'];
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['last_login'] = $row['last_login'];
-            $update_last_login = date("Y-m-d h:m:s");
-            // Here we are updating user last login time when he is performing login
-                $update = "UPDATE user SET last_login= ? WHERE email=?";
-                $query2 = $this->conn->prepare($update);
-                $query2->bind_param('ss',$update_last_login,$email);
-                $result = $query2->execute() or die($this->conn->error);
-                if ($result) {
-                   return 1;
-                }else {
-                    return 0;
-                }
-
-            }else {
-                return "Password_doesn't_Matched";
-            }
-           
-        }
-    }
-}
-
-/* To Check the user and class is working or not.Database connection,insert,update and Select query perfectly work here */
-//  $obj_user = new User();
-// echo $obj_user->CreateUser("mkarim123","m.karimcu@gmail.com","mmk1234","Admin");echo "<br>";
-// echo $obj_user->userLogin("m.karimcu@gmail.com","mmk1234");
-// echo $obj_user->EmailExists('m.karimcu@gmail.com');
+//echo $_SESSION["username"];
 ?>
