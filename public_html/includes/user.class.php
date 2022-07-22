@@ -31,7 +31,7 @@ public function EmailExists($email)
     public function CreateUser($user,$email,$password,$usertype)
     {
         if ($this->EmailExists($email)) {
-           echo "Email Already Exists";
+           echo "Email_Already_Exists";
         }else{
         $register_date = date('d/m/Y');
         $last_login = date('Y-m-d');
@@ -47,7 +47,7 @@ public function EmailExists($email)
         if ($result) {
           $this->conn->insert_id;
         }else{
-            return "SOrry, Error is found";
+            return "Email_not_found";
         }
     }
     }
@@ -88,6 +88,7 @@ public function EmailExists($email)
         }
     }
 }
+
 /* To Check the user and class is working or not.Database connection,insert,update and Select query perfectly work here */
 //  $obj_user = new User();
 // echo $obj_user->CreateUser("mkarim123","m.karimcu@gmail.com","mmk1234","Admin");echo "<br>";
