@@ -73,10 +73,8 @@
 					</div>
 				</div>
 			</div>
-		
 		</div>
 	</div>
-
 
 	<!-- The data targets to modal id linked to work -->
 <!-- Category Form modal -->

@@ -1,5 +1,5 @@
 <?php
-include_once('constaints.php');
+include_once('constants.php');
 class Database{
 private $conn;
 public function connect()
