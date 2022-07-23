@@ -129,5 +129,71 @@ $(document).ready(function(){
                 })
             }
         })
-    /* add Category Here */
+  
+    // /* Fetch Category Data */
+    fetch_category();
+	function fetch_category(){
+		$.ajax({
+			url : DOMAIN+"/includes/process.php",
+			method : "POST",
+			data : {getCategory:1},
+			success : function(data){
+				var root = "<option value='0'>Root</option>";
+				var choose = "<option value=''>Choose Category</option>";
+				$("#parent_cat").html(root+data);
+				$("#select_cat").html(choose+data);
+			}
+		})
+	}
+
+
+    /* Fetch Branding */
+
+      /* add Category Here */
+  $('#category_form').on('submit',function(){
+    if ($('#category_name').val() == "") {
+        $('#category_name').addClass("border-danger");
+        $("#cat_error").html("<span class='text-danger'>Please Enter Category Name</span>");
+    }else{
+        $.ajax({
+            method:"POST",
+            url:DOMAIN+"/includes/process.php",
+            data:$('#category_form').serialize(),
+            success: function (response) {
+                if (response == "Category_added") {
+                    $('#category_name').removeClass("border-danger");
+                    $("#cat_error").html("<span class='text-success'>Category successfully added</span>");
+                    $('#category_name').val("");
+                    fetch_category();
+                }else{
+                    alert(response)
+                }
+            }
+        })
+    }
+  })
+
+  /* Add Brand to database */
+  $('#brand_form').on('submit',function(){
+    if ($('#brand_name').val() == "") {
+        $('#brand_name').addClass('border-danger')
+        $('#error').html("<span class='text-danger'>Please Enter Category Name</span>");
+    }else{
+        $.ajax({
+            method:"POST",
+            url:DOMAIN+"/includes/process.php",
+            data:$('#brand_form').serialize(),
+            success: function (response) {
+                if (response == "Brand_added") {
+                    $('#brand_name').removeClass('border-danger')
+                    $('#error').html("<span class='text-success'>Successfully Brand added</span>");
+                    $('#brand_name').val();
+                }else{
+                    alert(response);
+                }
+            }
+        })
+    }
+  })
+
 })

@@ -24,7 +24,7 @@ class DBOperation{
         $query->bind_param('isi',$parent_cat,$cat_name,$status);
         $result = $query->execute();
         if ($result) {
-           return "Category added";
+           return "Category_added";
            
         } else {
            return "Category Not added";
@@ -32,6 +32,20 @@ class DBOperation{
         
     }
 
+    /* Brand add Query function Method */
+    public function Add_brand($brand_name)
+    {
+        $status = 1;
+       $sql = "INSERT INTO `brands`(`brand_name`, `status`) VALUES(?,?)";
+       $query = $this->conn->prepare($sql);
+       $query->bind_param('si',$brand_name,$status);
+       $result = $query->execute();
+       if ($result) {
+        return "Brand_added";
+       }else{
+        return 0;
+       }
+    }
     
 
     public function allRecords($table)
