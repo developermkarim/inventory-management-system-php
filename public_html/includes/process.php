@@ -39,13 +39,41 @@ if (isset($_POST['brand_name'])) {
   echo $result;
   exit();
 }
+
+  /* ADD Products with full details into database */
+
+   if (isset($_POST["added_date"]) AND isset($_POST["product_name"])) {
+      $product_obj = new DBOperation();
+      $result = $product_obj->add_products(
+        $_POST["select_cat"],
+							$_POST["select_brand"],
+							$_POST["product_name"],
+							$_POST["product_price"],
+							$_POST["product_qty"],
+							$_POST["added_date"]
+      );
+      echo $result;
+      exit();
+    }
+
+
     /* Fetch Category */
-    if($_POST['Cat_data']){
+    if($_POST['getCategory']){
       $obj = new DBOperation();
       $result = $obj->allRecords('categories');
       foreach ($result as $result_value) {
         echo "<option value='".$result_value['cid']."'>".$result_value['category_name']."</option>";
         // echo "<option value='".$row["cid"]."'>".$row["category_name"]."</option>";
+      }
+      exit();
+    }
+
+    /* Fetch Brand */
+    if ($_POST['Brand_cat']) {
+      $obj = new DBOperation();
+      $result = $obj->allRecords('brands');
+      foreach ($result as $res_value) {
+       echo '<option value="'.$res_value['bid'].'">'.$res_value['brand_name'].'</option>';
       }
       exit();
     }

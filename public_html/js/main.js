@@ -146,9 +146,19 @@ $(document).ready(function(){
 		})
 	}
 
-
-    /* Fetch Branding */
-
+    /* Fetch Branding data  */
+    Fetch_brand();
+function  Fetch_brand() {
+    $.ajax({
+        url : DOMAIN+"/includes/process.php",
+			method : "POST",
+            data:{Brand_cat:1},
+            success:function(response){
+                var choose = "<option value=''>Choose Brand</option>";
+                $('#select_brand').html(choose+response);
+            }
+    })
+}
       /* add Category Here */
   $('#category_form').on('submit',function(){
     if ($('#category_name').val() == "") {
@@ -188,6 +198,33 @@ $(document).ready(function(){
                     $('#brand_name').removeClass('border-danger')
                     $('#error').html("<span class='text-success'>Successfully Brand added</span>");
                     $('#brand_name').val();
+                }else{
+                    alert(response);
+                }
+            }
+        })
+    }
+  })
+
+  /* ADD Products with full details into database */
+
+  $('#product_form').on("submit", function(){
+    if ($("#product_name").val() == "" || $("#select_cat").val() == "" || $("#select_brand").val() == "" || $("#product_price").val() == "" || $("#product_qty").val() == "") {
+        alert("Sorry,All inputs must be filled");
+    }
+    else{
+        $.ajax({
+            method:"POST",
+            url:DOMAIN+"/includes/process.php",
+            data:$('#product_form').serialize(),
+            success: function(response){
+                if (response == "Product_added") {
+                    alert("Data inserted Successfully");
+                    $("#product_name").val("");
+						$("#select_cat").val("");
+						$("#select_brand").val("");
+						$("#product_price").val("");
+						$("#product_qty").val("");
                 }else{
                     alert(response);
                 }
