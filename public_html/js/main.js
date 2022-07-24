@@ -198,6 +198,7 @@ function  Fetch_brand() {
                     $('#brand_name').removeClass('border-danger')
                     $('#error').html("<span class='text-success'>Successfully Brand added</span>");
                     $('#brand_name').val();
+                   
                 }else{
                     alert(response);
                 }

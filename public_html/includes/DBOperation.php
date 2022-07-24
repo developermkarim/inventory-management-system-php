@@ -53,7 +53,7 @@ class DBOperation{
         $sql = "INSERT INTO `products`(`cid`, `bid`, `product_name`, `product_price`, `product_stock`, `added_date`, `p_status`) VALUES (?,?,?,?,?,?,?)";
         $status = 1;
         $product_query = $this->conn->prepare($sql);
-        $product_query->bind_param('iisdisi',$cid,$bid,$pro_name,$price,$stock,$date);
+        $product_query->bind_param('iisdisi',$cid,$bid,$pro_name,$price,$stock,$date,$status);
         $result = $product_query->execute();
         if ($result) {
             return "Product_added";

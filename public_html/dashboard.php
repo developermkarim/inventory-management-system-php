@@ -40,8 +40,7 @@ if (!isset($_SESSION["userid"])) {
 					<h1>Welcome Admin,</h1>
 					<div class="row">
 						<div class="col-sm-6">
-							<iframe src="http://free.timeanddate.com/clock/i616j2aa/n1993/szw160/szh160/cf100/hnce1ead6" frameborder="0" width="160" height="160"></iframe>
-
+						<iframe src="https://free.timeanddate.com/clock/i8feh98l/n73/szw110/szh110/hoc000/hbw2/hfceee/cf100/hncccc/fdi76/mqc000/mql10/mqw4/mqd98/mhc000/mhl10/mhw4/mhd98/mmc000/mml10/mmw1/mmd98" frameborder="0" width="180" height="180"></iframe>
 						</div>
 						<div class="col-sm-6">
 							<div class="card">
