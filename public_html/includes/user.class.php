@@ -83,10 +83,10 @@ class User
 
 }
 
-//$user = new User();
-//echo $user->createUserAccount("Test","rizwan1@gmail.com","1234567890","Admin");
+// $user = new User();
+// echo $user->createUserAccount("Mahmodul Karim","m.karimcu@gmail.com","mmk12345","Admin");
 
-//echo $user->userLogin("rizwan1@gmail.com","1234567890");
+// echo $user->userLogin("m.karimcu@gmail.com","mmk12345");
 
-//echo $_SESSION["username"];
+// echo $_SESSION["username"];
 ?>

@@ -1,5 +1,5 @@
-<?php include('../database/constants.php'); include('user.class.php');
-include('./DBOperation.php'); ?>
+<?php include_once('../database/constants.php'); include_once('user.class.php');
+include_once('./DBOperation.php'); ?>
 
 <?php
 //For Registration Processsing
@@ -56,7 +56,7 @@ if (isset($_POST['brand_name'])) {
       exit();
     }
 
-
+error_reporting(0);
     /* Fetch Category */
     if($_POST['getCategory']){
       $obj = new DBOperation();
@@ -77,4 +77,37 @@ if (isset($_POST['brand_name'])) {
       }
       exit();
     }
+ ?>
+
+<?php
+include_once('./manage.php');
+//Manage Category
+if (isset($_POST["manageCategory"])) {
+	$m = new Manage();
+	$result = $m->manageRecordWithPagination("categories",$_POST["pageno"]);
+	$rows = $result["rows"];
+	$pagination = $result["pagination"];
+	if (count($rows) > 0) {
+		$n = (($_POST["pageno"] - 1) * 5)+1;
+		foreach ($rows as $row) {
+			?>
+				<tr>
+			        <td><?php echo $n; ?></td>
+			        <td><?php echo $row["category"]; ?></td>
+			        <td><?php echo $row["parent"]; ?></td>
+			        <td><a href="#" class="btn btn-success btn-sm">Active</a></td>
+			        <td>
+			        	<a href="#" did="<?php echo $row['cid']; ?>" class="btn btn-danger btn-sm del_cat">Delete</a>
+			        	<a href="#" eid="<?php echo $row['cid']; ?>" data-toggle="modal" data-target="#form_category" class="btn btn-info btn-sm edit_cat">Edit</a>
+			        </td>
+			      </tr>
+			<?php
+			$n++;
+		}
+		?>
+			<tr><td colspan="5"><?php echo $pagination; ?></td></tr>
+		<?php
+		exit();
+	}
+}
 ?>
